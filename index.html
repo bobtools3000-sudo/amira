@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title id="pageTitle">كوني أميرة</title>
+<meta name="description" id="pageDesc" content="رحلة يومية لبناء الثقة والوقار والحكمة — بخمس غرف، وموسيقى هادئة أصلية لكل غرفة.">
+<style>
+  :root{
+    --cream:#fdf6f1;
+    --blush:#f3d9d3;
+    --blush-deep:#e3a99c;
+    --rose:#c97b6d;
+    --gold:#c9a15a;
+    --ink:#5a3d38;
+    --ink-soft:#8a6a62;
+    --card:#ffffff;
+    --line:rgba(90,61,56,0.12);
+    --serif:'Cormorant Garamond','Noto Naskh Arabic',serif;
+    --sans:'Inter','Tajawal',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--sans);
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  body{min-height:100vh;position:relative;}
+
+  .bg-glow{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 0%, rgba(243,217,211,0.6), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 90% 20%, rgba(201,161,90,0.12), transparent 60%);
+  }
+
+  .lang-switch{
+    position:fixed;top:calc(env(safe-area-inset-top,0px) + 18px);
+    inset-inline-end:18px;z-index:6;
+    background:var(--card);border:1px solid var(--line);
+    color:var(--ink);font-size:0.72rem;letter-spacing:0.04em;
+    padding:8px 14px;border-radius:20px;
+    box-shadow:0 2px 10px rgba(90,61,56,0.08);
+  }
+
+  /* ---------- HOME: Palace ---------- */
+  #homeView{position:relative;z-index:1;}
+
+  header.home-head{
+    text-align:center;padding:60px 24px 8px;
+  }
+  .crown-mark{
+    width:40px;height:40px;margin:0 auto 18px;
+    color:var(--rose);
+  }
+  h1.brand{
+    font-family:var(--serif);font-weight:600;
+    font-size:clamp(2.2rem,8.5vw,3.2rem);
+    color:var(--ink);letter-spacing:0.01em;
+  }
+  .brand-sub{
+    margin-top:10px;font-size:0.92rem;color:var(--ink-soft);
+    max-width:320px;margin-inline:auto;line-height:1.7;
+  }
+
+  /* status bar: level + streak */
+  .status-bar{
+    max-width:460px;margin:28px auto 6px;padding:0 20px;
+    display:flex;gap:10px;
+  }
+  .status-pill{
+    flex:1;background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:14px 16px;
+    display:flex;flex-direction:column;gap:2px;
+    box-shadow:0 2px 14px rgba(90,61,56,0.06);
+  }
+  .status-pill .label{font-size:0.68rem;color:var(--ink-soft);letter-spacing:0.03em;}
+  .status-pill .value{font-family:var(--serif);font-size:1.25rem;color:var(--rose);font-weight:600;}
+  .status-pill .sub{font-size:0.68rem;color:var(--ink-soft);}
+
+  .progress-wrap{max-width:460px;margin:14px auto 0;padding:0 20px;}
+  .progress-track{height:6px;background:var(--blush);border-radius:6px;overflow:hidden;}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--rose),var(--gold));border-radius:6px;transition:width .6s ease;}
+  .progress-label{margin-top:6px;font-size:0.72rem;color:var(--ink-soft);text-align:center;}
+
+  main.home-main{position:relative;z-index:1;padding:20px 20px 100px;}
+
+  .rooms-grid{
+    max-width:480px;margin:0 auto;
+    display:flex;flex-direction:column;gap:14px;
+  }
+  .room-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:20px 20px;
+    display:flex;align-items:center;gap:16px;
+    cursor:pointer;
+    box-shadow:0 2px 16px rgba(90,61,56,0.06);
+    transition:transform .25s ease, box-shadow .25s ease;
+    text-align:start;
+    position:relative;
+    overflow:hidden;
+  }
+  .room-card:active{transform:scale(0.98);}
+  .room-card::before{
+    content:'';position:absolute;inset-inline-start:0;top:0;bottom:0;width:5px;
+    background:var(--room-color, var(--rose));
+  }
+  .room-icon{
+    width:52px;height:52px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--room-bg, var(--blush));
+    flex-shrink:0;
+  }
+  .room-icon svg{width:26px;height:26px;color:var(--room-color, var(--rose));}
+  .room-txt h3{font-family:var(--serif);font-size:1.3rem;font-weight:600;margin-bottom:3px;color:var(--ink);}
+  .room-txt p{font-size:0.78rem;color:var(--ink-soft);line-height:1.55;}
+  .room-badge{
+    margin-inline-start:auto;flex-shrink:0;
+    font-size:0.68rem;color:var(--rose);background:var(--blush);
+    padding:4px 10px;border-radius:12px;white-space:nowrap;
+  }
+
+  .weekly-challenge{
+    max-width:480px;margin:22px auto 0;
+    background:linear-gradient(135deg, var(--blush), var(--cream));
+    border:1px solid var(--blush-deep);
+    border-radius:20px;padding:20px;
+    text-align:center;
+  }
+  .weekly-challenge .wc-label{font-size:0.7rem;color:var(--rose);letter-spacing:0.03em;margin-bottom:6px;}
+  .weekly-challenge h4{font-family:var(--serif);font-size:1.2rem;color:var(--ink);margin-bottom:6px;}
+  .weekly-challenge p{font-size:0.8rem;color:var(--ink-soft);line-height:1.6;}
+
+  footer.home-foot{
+    position:relative;z-index:1;text-align:center;padding:24px 24px 50px;
+    font-size:0.72rem;color:var(--ink-soft);opacity:0.7;
+  }
+
+  /* ---------- SESSION VIEW ---------- */
+  .session{
+    position:fixed;inset:0;z-index:10;
+    background:var(--cream);
+    display:none;flex-direction:column;
+    align-items:center;justify-content:space-between;
+    padding:env(safe-area-inset-top,28px) 24px calc(env(safe-area-inset-bottom,28px) + 20px);
+  }
+  .session.active{display:flex;}
+
+  .close-btn{
+    align-self:flex-start;
+    background:var(--card);border:1px solid var(--line);color:var(--ink);
+    width:38px;height:38px;border-radius:50%;
+    font-size:1.1rem;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  .content-stage{
+    flex:1;width:100%;max-width:460px;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    position:relative;text-align:center;
+  }
+  .room-title-small{
+    font-size:0.75rem;color:var(--rose);letter-spacing:0.04em;margin-bottom:8px;
+  }
+  .content-body{
+    font-family:var(--serif);
+    font-size:clamp(1.4rem,6.2vw,1.9rem);
+    line-height:1.55;
+    color:var(--ink);
+    max-width:360px;
+    opacity:0;transition:opacity 1.2s ease;
+  }
+  .content-body.show{opacity:1;}
+  .content-caption{
+    margin-top:22px;font-size:0.82rem;color:var(--ink-soft);
+    max-width:320px;line-height:1.7;opacity:0;transition:opacity 1.4s ease .3s;
+  }
+  .content-caption.show{opacity:1;}
+
+  canvas#fx{
+    width:min(60vw,220px);height:min(60vw,220px);
+    display:block;margin-bottom:20px;
+  }
+
+  .action-row{
+    width:100%;max-width:460px;
+    display:flex;flex-direction:column;gap:14px;align-items:center;
+  }
+  .primary-btn{
+    width:100%;max-width:320px;
+    background:var(--rose);color:#fff;border:none;
+    padding:16px;border-radius:16px;
+    font-family:var(--sans);font-size:0.95rem;font-weight:600;
+    box-shadow:0 6px 20px rgba(201,123,109,0.3);
+  }
+  .secondary-row{display:flex;gap:20px;align-items:center;}
+  .side-btn{
+    width:40px;height:40px;border-radius:50%;
+    background:var(--card);border:1px solid var(--line);color:var(--ink);
+    font-size:0.9rem;display:flex;align-items:center;justify-content:center;
+  }
+  .points-earned{
+    font-size:0.75rem;color:var(--ink-soft);
+  }
+  .points-earned b{color:var(--rose);}
+
+  /* journal input for Throne room */
+  .journal-input{
+    width:100%;max-width:340px;margin-top:20px;
+    background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:14px;
+    font-family:var(--sans);font-size:0.9rem;color:var(--ink);
+    resize:none;min-height:90px;
+  }
+  .journal-input:focus{outline:none;border-color:var(--rose);}
+
+  /* toast */
+  .toast{
+    position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;padding:12px 22px;border-radius:30px;
+    font-size:0.85rem;z-index:30;opacity:0;pointer-events:none;
+    transition:opacity .4s ease, transform .4s ease;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  ::selection{background:var(--blush-deep);color:#fff;}
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<button class="lang-switch" id="langSwitch">EN</button>
+
+<!-- ========== HOME ========== -->
+<div id="homeView">
+  <header class="home-head">
+    <svg class="crown-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 36L4 16L15 24L24 10L33 24L44 16L42 36H6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M6 36H42V40H6V36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+    </svg>
+    <h1 class="brand" id="brandTitle">كوني أميرة</h1>
+    <p class="brand-sub" id="brandSub">رحلتكِ اليومية نحو الثقة والوقار والحكمة، خطوة بخطوة.</p>
+  </header>
+
+  <div class="status-bar">
+    <div class="status-pill">
+      <span class="label" id="levelLabel">المستوى</span>
+      <span class="value" id="levelValue">أميرة مبتدئة</span>
+      <span class="sub" id="pointsSub">0 نقطة</span>
+    </div>
+    <div class="status-pill">
+      <span class="label" id="streakLabel">أيام متتالية</span>
+      <span class="value" id="streakValue">🔥 0</span>
+      <span class="sub" id="streakSub">استمري اليوم</span>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-bar" id="levelProgress" style="width:0%"></div></div>
+    <div class="progress-label" id="progressLabel">0 / 50 للمستوى التالي</div>
+  </div>
+
+  <main class="home-main">
+    <div class="rooms-grid" id="roomsGrid"></div>
+
+    <div class="weekly-challenge">
+      <div class="wc-label" id="wcLabel">تحدي الأسبوع</div>
+      <h4 id="wcTitle">امتنعي عن الشكوى</h4>
+      <p id="wcText">حاولي مدة ثلاثة أيام متتالية ألا تتفوهي بشكوى، واستبدليها بكلمة شكر.</p>
+    </div>
+  </main>
+
+  <footer class="home-foot" id="homeFooter">كوني أميرة — رفيقة يومية لبناء الذات، وليست بديلاً عن التوجيه الأسري أو الشرعي المتخصص.</footer>
+</div>
+
+<!-- ========== SESSION ========== -->
+<div class="session" id="session">
+  <button class="close-btn" id="closeBtn">✕</button>
+
+  <div class="content-stage">
+    <canvas id="fx" width="400" height="400"></canvas>
+    <div class="room-title-small" id="roomTitleSmall"></div>
+    <div class="content-body" id="contentBody"></div>
+    <div class="content-caption" id="contentCaption"></div>
+    <textarea class="journal-input" id="journalInput" style="display:none;" placeholder=""></textarea>
+  </div>
+
+  <div class="action-row">
+    <button class="primary-btn" id="primaryBtn">تم</button>
+    <div class="secondary-row">
+      <button class="side-btn" id="muteBtn">🔊</button>
+      <span class="points-earned" id="pointsEarned"></span>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   I18N — UI STRINGS
+============================================================ */
+const UI = {
+  ar:{
+    dir:'rtl', lang:'ar',
+    pageTitle:'كوني أميرة',
+    pageDesc:'رحلة يومية لبناء الثقة والوقار والحكمة — بخمس غرف، وموسيقى هادئة أصلية لكل غرفة.',
+    brandTitle:'كوني أميرة',
+    brandSub:'رحلتكِ اليومية نحو الثقة والوقار والحكمة، خطوة بخطوة.',
+    levelLabel:'المستوى', streakLabel:'أيام متتالية',
+    streakSub:'استمري اليوم',
+    homeFooter:'كوني أميرة — رفيقة يومية لبناء الذات، وليست بديلاً عن التوجيه الأسري أو الشرعي المتخصص.',
+    wcLabel:'تحدي الأسبوع',
+    switchLabel:'EN',
+    closeBtnLabel:'إغلاق',
+    doneBtn:'تم، أضيفي نقاطي',
+    journalDoneBtn:'حفظ والمتابعة',
+    toastPoints:(n)=>`أحسنتِ! +${n} نقطة`,
+    toastLevelUp:(name)=>`🎉 وصلتِ إلى: ${name}`,
+    pointsUnit:'نقطة',
+    nextLevelLabel:(cur,next)=>`${cur} / ${next} للمستوى التالي`,
+    maxLevelLabel:'وصلتِ لأعلى مستوى 👑'
+  },
+  en:{
+    dir:'ltr', lang:'en',
+    pageTitle:'Be a Princess',
+    pageDesc:'A daily journey to build confidence, dignity, and wisdom — five rooms, each with its own gentle original music.',
+    brandTitle:'Be a Princess',
+    brandSub:'Your daily journey toward confidence, dignity, and wisdom, one step at a time.',
+    levelLabel:'Level', streakLabel:'Day streak',
+    streakSub:'Keep going today',
+    homeFooter:'Be a Princess — a daily companion for self-growth, not a substitute for family or specialized guidance.',
+    wcLabel:'Weekly challenge',
+    switchLabel:'AR',
+    closeBtnLabel:'Close',
+    doneBtn:'Done, add my points',
+    journalDoneBtn:'Save & continue',
+    toastPoints:(n)=>`Well done! +${n} point${n>1?'s':''}`,
+    toastLevelUp:(name)=>`🎉 You reached: ${name}`,
+    pointsUnit:'points',
+    nextLevelLabel:(cur,next)=>`${cur} / ${next} to next level`,
+    maxLevelLabel:'You reached the highest level 👑'
+  }
+};
+
+const LEVELS = {
+  ar:[
+    {min:0, max:50, name:'أميرة مبتدئة'},
+    {min:51, max:150, name:'أميرة واعدة'},
+    {min:151, max:350, name:'أميرة الوقار'},
+    {min:351, max:700, name:'أميرة الحكمة'},
+    {min:701, max:999999, name:'أميرة متوّجة'}
+  ],
+  en:[
+    {min:0, max:50, name:'Beginner Princess'},
+    {min:51, max:150, name:'Rising Princess'},
+    {min:151, max:350, name:'Princess of Dignity'},
+    {min:351, max:700, name:'Princess of Wisdom'},
+    {min:701, max:999999, name:'Crowned Princess'}
+  ]
+};
+
+const WEEKLY = {
+  ar:{title:'امتنعي عن الشكوى', text:'حاولي مدة ثلاثة أيام متتالية ألا تتفوهي بشكوى، واستبدليها بكلمة شكر.'},
+  en:{title:'A week without complaint', text:'Try three days in a row without complaining — replace it with a word of gratitude instead.'}
+};
+
+/* ============================================================
+   ROOMS DATA — original content, per room: icon svg, colors,
+   music root frequency + mode, and a content pool.
+============================================================ */
+const ROOM_ICONS = {
+  throne: `<path d="M6 20l1.5-8L12 15l4-9 4 9 4.5-3L26 20" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/><rect x="7" y="20" width="18" height="3" rx="1" stroke="currentColor" stroke-width="1.8" fill="none"/>`,
+  mirror: `<ellipse cx="16" cy="13" rx="8" ry="10" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M12 26h8M16 23v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`,
+  wisdom: `<path d="M16 6C10 6 6 10 6 15c0 3 1.5 5 3 6.5V25h14v-3.5c1.5-1.5 3-3.5 3-6.5 0-5-4-9-10-9z" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M13 27h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`,
+  serenity: `<path d="M16 5c-1 4-6 5-6 11a6 6 0 0012 0c0-6-5-7-6-11z" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M16 22v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`,
+  challenge: `<path d="M6 8h20M8 8v6a8 8 0 0016 0V8M12 26h8M16 22v4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`
+};
+
+const ROOMS = {
+  ar:[
+    {
+      id:'throne', title:'غرفة العرش', desc:'ثقة داخلية تُبنى يومًا بعد يوم',
+      color:'#c97b6d', bg:'#f3d9d3',
+      points:2, freq:294, mode:'warm',
+      type:'journal',
+      prompts:[
+        'اكتبي شيئًا واحدًا أنجزتيه اليوم، ولو كان بسيطًا.',
+        'ما الصفة التي يحبها فيكِ من يعرفكِ جيدًا؟',
+        'متى شعرتِ بالفخر بنفسكِ هذا الأسبوع؟',
+        'ما موقف صعب مررتِ به وخرجتِ منه أقوى؟',
+        'اكتبي جملة تقولينها لنفسكِ حين تشعرين بالتردد.'
+      ],
+      caption:'ثقتكِ لا تُبنى من كلام الآخرين، بل من نظرتكِ الصادقة لذاتكِ.'
+    },
+    {
+      id:'mirror', title:'غرفة المرآة', desc:'الحياء والوقار كقوة حقيقية',
+      color:'#a8607a', bg:'#ecd6e0',
+      points:1, freq:330, mode:'gentle',
+      type:'reading',
+      lines:[
+        'وقاركِ ليس بابًا مغلقًا، بل مفتاحًا لا يُعطى إلا لمن يستحق.',
+        'من عرفت قيمة نفسها، لم تعد بحاجة أن تثبتها للجميع.',
+        'الهدوء الذي تحملينه في تعاملكِ أقوى أثرًا من أي زينة ظاهرة.',
+        'ثقة المرأة بنفسها تُقرأ في نظرتها قبل أن تُقرأ في كلامها.',
+        'من احترمت نفسها أولًا، وجدت من يحترمها دون أن تطلب ذلك.'
+      ],
+      caption:'اقرئي هذه الكلمة ببطء، ودعيها تستقر في داخلكِ.'
+    },
+    {
+      id:'wisdom', title:'غرفة الحكمة', desc:'مهارات حياتية عملية للتعامل اليومي',
+      color:'#8a7248', bg:'#ece2cf',
+      points:2, freq:349, mode:'clear',
+      type:'reading',
+      lines:[
+        'حين يوجَّه إليكِ نقد، خذي نَفَسًا قبل أن تردّي — الهدوء يمنحكِ وضوحًا لا يمنحه الانفعال.',
+        'الإصغاء الحقيقي لا ينتظر دوره في الكلام، بل يفهم ما وراء الكلمات.',
+        'حين تشعرين بالغضب، أجّلي القرار لا الشعور — دعي القرار ينتظر حتى يهدأ قلبكِ.',
+        'كلمة "لا" الواضحة اللطيفة أفضل من موافقة مترددة تندمين عليها لاحقًا.',
+        'تنظيم وقتكِ ليس ترفًا، بل احترام لطاقتكِ ولمن حولكِ.'
+      ],
+      caption:'مهارة صغيرة تُمارَس يوميًا، تصبح جزءًا من شخصيتكِ.'
+    },
+    {
+      id:'serenity', title:'غرفة السكينة', desc:'لحظة روحية هادئة، ذكرًا أو حكاية',
+      color:'#6e8f8a', bg:'#dbe8e5',
+      points:2, freq:261, mode:'soft',
+      type:'reading',
+      lines:[
+        'سبحان الله وبحمده، سبحان الله العظيم.',
+        'اللهم اجعلني من اللواتي يُحسِنّ الظن بكَ في كل حال.',
+        'حكاية الأميرة الحكيمة: كانت تعلم أن جمال القصر لا يساوي شيئًا أمام جمال القلب الذي يسكنه، فكانت تزين قلبها أولًا.',
+        'اللهم اجعل قلبي عامرًا بالرضا، ووجهي مشرقًا بالسكينة.',
+        'حكاية الأميرة الحكيمة: سُئلت ذات مرة، ما سرّ وقارك؟ فقالت: علمت أن قيمتي لا تُقاس بعيون الناظرين، بل بمن أنا أمام نفسي.'
+      ],
+      caption:'خذي نفسًا عميقًا، ودعي هذه الكلمات تهدئ قلبكِ.'
+    }
+  ],
+  en:[
+    {
+      id:'throne', title:'The Throne Room', desc:'Inner confidence, built day by day',
+      color:'#c97b6d', bg:'#f3d9d3',
+      points:2, freq:294, mode:'warm',
+      type:'journal',
+      prompts:[
+        'Write one thing you accomplished today, however small.',
+        'What quality do the people who know you well love about you?',
+        'When did you feel proud of yourself this week?',
+        'Describe a hard moment you came out of stronger.',
+        'Write a sentence you tell yourself when you feel unsure.'
+      ],
+      caption:'Your confidence isn\'t built from others\' words, but from your own honest view of yourself.'
+    },
+    {
+      id:'mirror', title:'The Mirror Room', desc:'Modesty and dignity as real strength',
+      color:'#a8607a', bg:'#ecd6e0',
+      points:1, freq:330, mode:'gentle',
+      type:'reading',
+      lines:[
+        'Your dignity is not a closed door, but a key given only to those who deserve it.',
+        'Whoever knows her own worth no longer needs to prove it to everyone.',
+        'The calm you carry in how you treat others speaks louder than any outward adornment.',
+        'A woman\'s confidence is read in her gaze before it\'s read in her words.',
+        'Whoever respects herself first finds others respecting her without asking.'
+      ],
+      caption:'Read this slowly, and let it settle within you.'
+    },
+    {
+      id:'wisdom', title:'The Wisdom Room', desc:'Practical life skills for everyday moments',
+      color:'#8a7248', bg:'#ece2cf',
+      points:2, freq:349, mode:'clear',
+      type:'reading',
+      lines:[
+        'When criticized, take a breath before responding — calm gives clarity that reaction never does.',
+        'Real listening doesn\'t wait for its turn to speak; it hears what\'s beneath the words.',
+        'When angry, delay the decision, not the feeling — let the decision wait until your heart settles.',
+        'A clear, kind "no" is better than a hesitant "yes" you\'ll regret later.',
+        'Managing your time isn\'t a luxury — it\'s respect for your energy and for those around you.'
+      ],
+      caption:'A small habit, practiced daily, becomes part of who you are.'
+    },
+    {
+      id:'serenity', title:'The Serenity Room', desc:'A quiet spiritual moment, remembrance or story',
+      color:'#6e8f8a', bg:'#dbe8e5',
+      points:2, freq:261, mode:'soft',
+      type:'reading',
+      lines:[
+        'Gratitude, quietly held, is its own kind of prayer.',
+        'May my heart be at peace with whatever this day brings.',
+        'The tale of the wise princess: she knew the palace\'s beauty meant nothing beside the beauty of the heart that lived in it, so she adorned her heart first.',
+        'May my heart be full of contentment, and my face bright with serenity.',
+        'The tale of the wise princess: once asked the secret of her dignity, she said — "I learned my worth isn\'t measured by watching eyes, but by who I am when I\'m alone with myself."'
+      ],
+      caption:'Take a deep breath, and let these words settle your heart.'
+    }
+  ]
+};
+
+let currentLang = 'ar';
+let userState = { points:0, streak:0, lastVisit:null };
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem('princess_state');
+    if(raw) userState = JSON.parse(raw);
+  }catch(e){}
+}
+function saveState(){
+  try{ localStorage.setItem('princess_state', JSON.stringify(userState)); }catch(e){}
+}
+
+function getLevel(lang){
+  const levels = LEVELS[lang];
+  for(const lv of levels){ if(userState.points>=lv.min && userState.points<=lv.max) return lv; }
+  return levels[levels.length-1];
+}
+
+function updateStatusBar(){
+  const t = UI[currentLang];
+  const levels = LEVELS[currentLang];
+  const lv = getLevel(currentLang);
+  document.getElementById('levelValue').textContent = lv.name;
+  document.getElementById('pointsSub').textContent = `${userState.points} ${t.pointsUnit}`;
+  document.getElementById('streakValue').textContent = `🔥 ${userState.streak}`;
+
+  const idx = levels.indexOf(lv);
+  if(idx === levels.length-1){
+    document.getElementById('levelProgress').style.width='100%';
+    document.getElementById('progressLabel').textContent = t.maxLevelLabel;
+  } else {
+    const span = lv.max - lv.min + 1;
+    const done = userState.points - lv.min;
+    const pct = Math.min(100, Math.round((done/span)*100));
+    document.getElementById('levelProgress').style.width = pct+'%';
+    document.getElementById('progressLabel').textContent = t.nextLevelLabel(userState.points, lv.max+1);
+  }
+}
+
+function addPoints(n){
+  const prevLevel = getLevel(currentLang);
+  userState.points += n;
+
+  const today = new Date().toDateString();
+  if(userState.lastVisit !== today){
+    userState.streak += 1;
+    userState.lastVisit = today;
+  }
+  saveState();
+  updateStatusBar();
+
+  const t = UI[currentLang];
+  showToast(t.toastPoints(n));
+  const newLevel = getLevel(currentLang);
+  if(newLevel.name !== prevLevel.name){
+    setTimeout(()=>showToast(t.toastLevelUp(newLevel.name)), 1800);
+  }
+}
+
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=>el.classList.remove('show'), 2600);
+}
+
+/* ============================================================
+   RENDER: language + rooms grid
+============================================================ */
+function applyLang(lang){
+  currentLang = lang;
+  const t = UI[lang];
+  document.getElementById('htmlRoot').setAttribute('lang', t.lang);
+  document.getElementById('htmlRoot').setAttribute('dir', t.dir);
+  document.getElementById('pageTitle').textContent = t.pageTitle;
+  document.getElementById('pageDesc').setAttribute('content', t.pageDesc);
+  document.getElementById('brandTitle').textContent = t.brandTitle;
+  document.getElementById('brandSub').textContent = t.brandSub;
+  document.getElementById('levelLabel').textContent = t.levelLabel;
+  document.getElementById('streakLabel').textContent = t.streakLabel;
+  document.getElementById('streakSub').textContent = t.streakSub;
+  document.getElementById('homeFooter').textContent = t.homeFooter;
+  document.getElementById('wcLabel').textContent = t.wcLabel;
+  document.getElementById('langSwitch').textContent = t.switchLabel;
+  document.getElementById('closeBtn').setAttribute('aria-label', t.closeBtnLabel);
+
+  const wc = WEEKLY[lang];
+  document.getElementById('wcTitle').textContent = wc.title;
+  document.getElementById('wcText').textContent = wc.text;
+
+  buildRoomsGrid();
+  updateStatusBar();
+}
+
+document.getElementById('langSwitch').addEventListener('click', ()=>{
+  applyLang(currentLang==='ar' ? 'en' : 'ar');
+});
+
+const roomsGrid = document.getElementById('roomsGrid');
+function buildRoomsGrid(){
+  roomsGrid.innerHTML='';
+  const list = ROOMS[currentLang];
+  list.forEach(room=>{
+    const card = document.createElement('div');
+    card.className='room-card';
+    card.style.setProperty('--room-color', room.color);
+    card.style.setProperty('--room-bg', room.bg);
+    card.innerHTML = `
+      <div class="room-icon"><svg viewBox="0 0 32 32" fill="none">${ROOM_ICONS[room.id]}</svg></div>
+      <div class="room-txt"><h3>${room.title}</h3><p>${room.desc}</p></div>
+      <div class="room-badge">+${room.points}</div>
+    `;
+    card.addEventListener('click', ()=>openRoom(room));
+    roomsGrid.appendChild(card);
+  });
+}
+
+/* ============================================================
+   SESSION: open a room, show content, handle journal/reading
+============================================================ */
+let currentRoom = null;
+const sessionEl = document.getElementById('session');
+const contentBody = document.getElementById('contentBody');
+const contentCaption = document.getElementById('contentCaption');
+const roomTitleSmall = document.getElementById('roomTitleSmall');
+const journalInput = document.getElementById('journalInput');
+const primaryBtn = document.getElementById('primaryBtn');
+const pointsEarnedEl = document.getElementById('pointsEarned');
+
+function pickRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+function openRoom(room){
+  currentRoom = room;
+  roomTitleSmall.textContent = room.title;
+  contentCaption.textContent = room.caption;
+  pointsEarnedEl.textContent = '';
+
+  if(room.type==='journal'){
+    contentBody.textContent = pickRandom(room.prompts);
+    journalInput.style.display='block';
+    journalInput.value='';
+    journalInput.placeholder = currentLang==='ar' ? 'اكتبي هنا...' : 'Write here...';
+    primaryBtn.textContent = UI[currentLang].journalDoneBtn;
+  } else {
+    contentBody.textContent = pickRandom(room.lines);
+    journalInput.style.display='none';
+    primaryBtn.textContent = UI[currentLang].doneBtn;
+  }
+
+  sessionEl.classList.add('active');
+  dpiFix();
+  loopVisual(room.color);
+  initAudio(room.freq, room.mode);
+
+  requestAnimationFrame(()=>{
+    contentBody.classList.add('show');
+    contentCaption.classList.add('show');
+  });
+}
+
+function closeSession(){
+  stopVisual();
+  stopAudio();
+  contentBody.classList.remove('show');
+  contentCaption.classList.remove('show');
+  sessionEl.classList.remove('active');
+}
+
+primaryBtn.addEventListener('click', ()=>{
+  if(currentRoom){
+    addPoints(currentRoom.points);
+    pointsEarnedEl.textContent = `+${currentRoom.points}`;
+  }
+  setTimeout(closeSession, 500);
+});
+document.getElementById('closeBtn').addEventListener('click', closeSession);
+
+/* ============================================================
+   AUDIO ENGINE — original solo melody per room, distinct
+   root note + "mode" (interval pattern) so each room feels
+   different. No copyrighted material; composed for this app.
+============================================================ */
+let actx=null, master=null, droneNodes=[], melodyTimeout=null, reverbNode=null;
+let isMuted=false;
+
+function buildReverb(ctx, seconds, decay){
+  const rate = ctx.sampleRate;
+  const length = rate * seconds;
+  const impulse = ctx.createBuffer(2, length, rate);
+  for(let ch=0; ch<2; ch++){
+    const data = impulse.getChannelData(ch);
+    for(let i=0;i<length;i++){
+      data[i] = (Math.random()*2-1) * Math.pow(1 - i/length, decay);
+    }
+  }
+  const conv = ctx.createConvolver();
+  conv.buffer = impulse;
+  return conv;
+}
+
+// Distinct original melodic phrases per mode — semitone offsets + beat durations.
+const PHRASES = {
+  warm:[  // Throne room: rising, hopeful, steady
+    [0,2],[4,1],[7,1],[9,2],[7,1],[4,1],
+    [0,3],[null,1],
+    [9,2],[12,1],[9,1],[7,2],[4,1],[0,1],
+    [4,3],[null,2]
+  ],
+  gentle:[ // Mirror room: soft, introspective, narrow range
+    [0,2],[2,1],[3,2],[2,1],[0,2],
+    [null,1],
+    [7,2],[5,1],[3,2],[2,1],[0,3],
+    [null,2]
+  ],
+  clear:[ // Wisdom room: measured, deliberate, slightly brighter
+    [0,1.5],[2,0.5],[4,1],[7,1],[4,1],[2,1],
+    [0,2],[null,1],
+    [7,1.5],[9,0.5],[7,1],[4,2],
+    [2,1],[0,2],[null,2]
+  ],
+  soft:[ // Serenity room: slow, spacious, minimal movement
+    [0,3],[3,2],[0,3],
+    [null,1.5],
+    [5,3],[3,2],[0,4],
+    [null,2]
+  ]
+};
+
+const ROOT_MAP = { warm:294, gentle:330, clear:349, soft:261 };
+
+function initAudio(freqIgnored, mode){
+  actx = new (window.AudioContext||window.webkitAudioContext)();
+  master = actx.createGain();
+  master.gain.value = 0.0001;
+
+  const masterFilter = actx.createBiquadFilter();
+  masterFilter.type='lowpass'; masterFilter.frequency.value=3800; masterFilter.Q.value=0.2;
+
+  reverbNode = buildReverb(actx, 4.0, 2.3);
+  const reverbGain = actx.createGain(); reverbGain.gain.value=0.48;
+  const dryGain = actx.createGain(); dryGain.gain.value=0.82;
+
+  master.connect(masterFilter);
+  masterFilter.connect(dryGain).connect(actx.destination);
+  masterFilter.connect(reverbNode).connect(reverbGain).connect(actx.destination);
+
+  const root = ROOT_MAP[mode] || 294;
+  const semitone = n => root * Math.pow(2, n/12);
+
+  const melodyGain = actx.createGain();
+  melodyGain.gain.value = 0;
+  melodyGain.connect(master);
+
+  const vibrato = actx.createOscillator();
+  vibrato.frequency.value = 5.0;
+  const vibratoDepth = actx.createGain();
+  vibratoDepth.gain.value = 3.2;
+  vibrato.connect(vibratoDepth);
+  vibrato.start();
+  droneNodes.push(vibrato);
+
+  const phrase = PHRASES[mode] || PHRASES.warm;
+  const BEAT = 0.6;
+
+  function playNote(semi, beats){
+    if(semi===null) return;
+    const dur = beats*BEAT;
+    const t = actx.currentTime;
+    const freqHz = semitone(semi);
+
+    const osc = actx.createOscillator();
+    osc.type='sine'; osc.frequency.value=freqHz;
+    const osc2 = actx.createOscillator();
+    osc2.type='triangle'; osc2.frequency.value=freqHz;
+
+    vibratoDepth.connect(osc.detune);
+    vibratoDepth.connect(osc2.detune);
+
+    const noteGain = actx.createGain();
+    noteGain.gain.value = 0;
+    const g2 = actx.createGain(); g2.gain.value=0.32;
+
+    osc.connect(noteGain);
+    osc2.connect(g2).connect(noteGain);
+    noteGain.connect(melodyGain);
+
+    osc.start(t); osc2.start(t);
+    noteGain.gain.linearRampToValueAtTime(0.82, t+0.09);
+    noteGain.gain.linearRampToValueAtTime(0.66, t+dur*0.6);
+    noteGain.gain.linearRampToValueAtTime(0.0001, t+dur*0.98);
+    osc.stop(t+dur+0.05); osc2.stop(t+dur+0.05);
+  }
+
+  let idx=0;
+  function cycle(){
+    const [semi,beats] = phrase[idx % phrase.length];
+    playNote(semi,beats);
+    idx++;
+    melodyTimeout = setTimeout(cycle, beats*BEAT*1000);
+  }
+  melodyGain.gain.linearRampToValueAtTime(0.4, actx.currentTime+2);
+  cycle();
+
+  // soft string-like pad
+  [0,7,12].forEach((semi,i)=>{
+    const osc = actx.createOscillator();
+    osc.type='triangle'; osc.frequency.value=semitone(semi)/2;
+    const g = actx.createGain(); g.gain.value = i===0?0.08:0.045;
+    const filt = actx.createBiquadFilter();
+    filt.type='lowpass'; filt.frequency.value=850;
+    osc.connect(filt).connect(g).connect(master);
+    osc.start();
+    droneNodes.push(osc);
+  });
+
+  const lfo = actx.createOscillator();
+  lfo.frequency.value=0.045;
+  const lfoGain = actx.createGain(); lfoGain.gain.value=0.028;
+  lfo.connect(lfoGain); lfoGain.connect(master.gain);
+  lfo.start();
+  droneNodes.push(lfo);
+
+  master.gain.linearRampToValueAtTime(isMuted?0.0001:0.55, actx.currentTime+3);
+}
+
+function stopAudio(){
+  if(!actx) return;
+  try{
+    clearTimeout(melodyTimeout);
+    master.gain.linearRampToValueAtTime(0.0001, actx.currentTime+1.3);
+    setTimeout(()=>{
+      droneNodes.forEach(n=>{try{n.stop();}catch(e){}});
+      droneNodes=[];
+      if(actx){ actx.close(); actx=null; }
+    },1400);
+  }catch(e){}
+}
+
+function toggleMute(){
+  isMuted=!isMuted;
+  document.getElementById('muteBtn').textContent = isMuted? '🔇':'🔊';
+  if(master && actx){
+    master.gain.linearRampToValueAtTime(isMuted?0.0001:0.55, actx.currentTime+0.5);
+  }
+}
+document.getElementById('muteBtn').addEventListener('click', toggleMute);
+
+/* ============================================================
+   VISUAL: soft glowing bloom per room color
+============================================================ */
+let rafId=null;
+const canvas = document.getElementById('fx');
+const ctx = canvas.getContext('2d');
+function dpiFix(){
+  const size=400, scale=window.devicePixelRatio||1;
+  canvas.width=size*scale; canvas.height=size*scale;
+  ctx.setTransform(scale,0,0,scale,0,0);
+}
+function hexToRgb(hex){
+  const v = parseInt(hex.slice(1),16);
+  return [(v>>16)&255,(v>>8)&255,v&255];
+}
+function drawFrame(time, colorHex){
+  const [r,g,b] = hexToRgb(colorHex);
+  const W=400,H=400,cx=W/2,cy=H/2;
+  ctx.clearRect(0,0,W,H);
+  const t = time*0.001;
+
+  for(let i=0;i<4;i++){
+    const radius = 50+i*24+Math.sin(t*0.22+i)*8;
+    const alpha = 0.09+0.04*Math.sin(t*0.3+i*0.7);
+    ctx.beginPath();
+    ctx.strokeStyle=`rgba(${r},${g},${b},${Math.max(alpha,0.02)})`;
+    ctx.lineWidth=1.2;
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(t*0.06*(i%2===0?1:-1));
+    ctx.beginPath();
+    for(let a=0;a<Math.PI*2;a+=0.06){
+      const wob = Math.sin(a*5+t*0.5+i)*3;
+      const rr = radius+wob;
+      const x=Math.cos(a)*rr, y=Math.sin(a)*rr*0.94;
+      a===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath(); ctx.stroke(); ctx.restore();
+  }
+
+  const coreR = 26+Math.sin(t*0.6)*6;
+  const grad = ctx.createRadialGradient(cx,cy,0,cx,cy,coreR*3);
+  grad.addColorStop(0,`rgba(${r},${g},${b},0.5)`);
+  grad.addColorStop(1,`rgba(${r},${g},${b},0)`);
+  ctx.beginPath(); ctx.fillStyle=grad; ctx.arc(cx,cy,coreR*3,0,Math.PI*2); ctx.fill();
+
+  ctx.beginPath();
+  ctx.fillStyle=`rgba(${Math.min(r+50,255)},${Math.min(g+40,255)},${Math.min(b+40,255)},0.9)`;
+  ctx.arc(cx,cy,coreR*0.3,0,Math.PI*2); ctx.fill();
+}
+function loopVisual(colorHex){
+  function frame(time){ drawFrame(time,colorHex); rafId=requestAnimationFrame(frame); }
+  rafId=requestAnimationFrame(frame);
+}
+function stopVisual(){ if(rafId){cancelAnimationFrame(rafId); rafId=null;} }
+
+window.addEventListener('resize', dpiFix);
+
+/* init */
+loadState();
+applyLang('ar');
+</script>
+</body>
+</html>

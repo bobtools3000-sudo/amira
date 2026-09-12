@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title id="pageTitle">كوني أميرة</title>
+<meta name="description" id="pageDesc" content="رحلة يومية لبناء الثقة والوقار والحكمة، مع حكاية متطورة يومًا بعد يوم، ومهام واختبار شخصية.">
+<style>
+  :root{
+    --cream:#fdf6f1;
+    --blush:#f3d9d3;
+    --blush-deep:#e3a99c;
+    --rose:#c97b6d;
+    --gold:#c9a15a;
+    --ink:#5a3d38;
+    --ink-soft:#8a6a62;
+    --card:#ffffff;
+    --line:rgba(90,61,56,0.12);
+    --serif:'Cormorant Garamond','Noto Naskh Arabic',serif;
+    --sans:'Inter','Tajawal',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--sans);
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  body{min-height:100vh;position:relative;}
+
+  .bg-glow{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 0%, rgba(243,217,211,0.6), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 90% 20%, rgba(201,161,90,0.12), transparent 60%);
+  }
+
+  .lang-switch{
+    position:fixed;top:calc(env(safe-area-inset-top,0px) + 18px);
+    inset-inline-end:18px;z-index:6;
+    background:var(--card);border:1px solid var(--line);
+    color:var(--ink);font-size:0.72rem;letter-spacing:0.04em;
+    padding:8px 14px;border-radius:20px;
+    box-shadow:0 2px 10px rgba(90,61,56,0.08);
+  }
+
+  /* ---------- HOME ---------- */
+  #homeView{position:relative;z-index:1;}
+
+  header.home-head{text-align:center;padding:60px 24px 8px;}
+  .crown-mark{width:40px;height:40px;margin:0 auto 18px;color:var(--rose);}
+  h1.brand{
+    font-family:var(--serif);font-weight:600;
+    font-size:clamp(2.2rem,8.5vw,3.2rem);
+    color:var(--ink);letter-spacing:0.01em;
+  }
+  .brand-sub{margin-top:10px;font-size:0.92rem;color:var(--ink-soft);max-width:320px;margin-inline:auto;line-height:1.7;}
+
+  .status-bar{max-width:460px;margin:28px auto 6px;padding:0 20px;display:flex;gap:10px;}
+  .status-pill{
+    flex:1;background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:14px 16px;
+    display:flex;flex-direction:column;gap:2px;
+    box-shadow:0 2px 14px rgba(90,61,56,0.06);
+  }
+  .status-pill .label{font-size:0.68rem;color:var(--ink-soft);letter-spacing:0.03em;}
+  .status-pill .value{font-family:var(--serif);font-size:1.25rem;color:var(--rose);font-weight:600;}
+  .status-pill .sub{font-size:0.68rem;color:var(--ink-soft);}
+
+  .progress-wrap{max-width:460px;margin:14px auto 0;padding:0 20px;}
+  .progress-track{height:6px;background:var(--blush);border-radius:6px;overflow:hidden;}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--rose),var(--gold));border-radius:6px;transition:width .6s ease;}
+  .progress-label{margin-top:6px;font-size:0.72rem;color:var(--ink-soft);text-align:center;}
+
+  main.home-main{position:relative;z-index:1;padding:20px 20px 100px;}
+
+  .rooms-grid{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:14px;}
+  .room-card{
+    background:var(--card);border:1px solid var(--line);border-radius:20px;
+    padding:20px 20px;display:flex;align-items:center;gap:16px;
+    cursor:pointer;box-shadow:0 2px 16px rgba(90,61,56,0.06);
+    transition:transform .25s ease; text-align:start; position:relative; overflow:hidden;
+  }
+  .room-card:active{transform:scale(0.98);}
+  .room-card::before{
+    content:'';position:absolute;inset-inline-start:0;top:0;bottom:0;width:5px;
+    background:var(--room-color, var(--rose));
+  }
+  .room-icon{
+    width:52px;height:52px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--room-bg, var(--blush)); flex-shrink:0;
+  }
+  .room-icon svg{width:26px;height:26px;color:var(--room-color, var(--rose));}
+  .room-txt{flex:1;min-width:0;}
+  .room-txt h3{font-family:var(--serif);font-size:1.3rem;font-weight:600;margin-bottom:3px;color:var(--ink);}
+  .room-txt p{font-size:0.78rem;color:var(--ink-soft);line-height:1.55;}
+  .room-badge{
+    margin-inline-start:auto;flex-shrink:0;font-size:0.68rem;color:var(--rose);
+    background:var(--blush);padding:4px 10px;border-radius:12px;white-space:nowrap;
+  }
+  .room-badge.locked{background:#eee;color:#999;}
+
+  .weekly-challenge{
+    max-width:480px;margin:22px auto 0;
+    background:linear-gradient(135deg, var(--blush), var(--cream));
+    border:1px solid var(--blush-deep); border-radius:20px;padding:20px;text-align:center;
+    cursor:pointer;
+  }
+  .weekly-challenge .wc-label{font-size:0.7rem;color:var(--rose);letter-spacing:0.03em;margin-bottom:6px;}
+  .weekly-challenge h4{font-family:var(--serif);font-size:1.2rem;color:var(--ink);margin-bottom:6px;}
+  .weekly-challenge p{font-size:0.8rem;color:var(--ink-soft);line-height:1.6;}
+
+  footer.home-foot{position:relative;z-index:1;text-align:center;padding:24px 24px 50px;font-size:0.72rem;color:var(--ink-soft);opacity:0.7;}
+
+  /* ---------- SESSION ---------- */
+  .session{
+    position:fixed;inset:0;z-index:10;background:var(--cream);
+    display:none;flex-direction:column;align-items:center;justify-content:space-between;
+    padding:env(safe-area-inset-top,28px) 24px calc(env(safe-area-inset-bottom,28px) + 20px);
+    overflow-y:auto;
+  }
+  .session.active{display:flex;}
+
+  .close-btn{
+    align-self:flex-start;background:var(--card);border:1px solid var(--line);color:var(--ink);
+    width:38px;height:38px;border-radius:50%;font-size:1.1rem;line-height:1;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+
+  .content-stage{
+    flex:1;width:100%;max-width:460px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    position:relative;text-align:center;padding:20px 0;
+  }
+  .room-title-small{font-size:0.75rem;color:var(--rose);letter-spacing:0.04em;margin-bottom:8px;}
+  .chapter-label{font-size:0.68rem;color:var(--ink-soft);margin-bottom:4px;}
+  .content-title{font-family:var(--serif);font-size:1.5rem;color:var(--ink);margin-bottom:14px;}
+  .content-body{
+    font-family:var(--serif);font-size:clamp(1.15rem,5vw,1.5rem);line-height:1.75;
+    color:var(--ink);max-width:380px;text-align:start;
+    opacity:0;transition:opacity 1s ease;
+  }
+  .content-body.show{opacity:1;}
+  .content-caption{
+    margin-top:22px;font-size:0.85rem;color:var(--rose);font-weight:600;
+    max-width:340px;line-height:1.7;opacity:0;transition:opacity 1.2s ease .3s;
+  }
+  .content-caption.show{opacity:1;}
+
+  canvas#fx{width:min(50vw,180px);height:min(50vw,180px);display:block;margin-bottom:16px;}
+
+  .action-row{width:100%;max-width:460px;display:flex;flex-direction:column;gap:14px;align-items:center;flex-shrink:0;}
+  .primary-btn{
+    width:100%;max-width:320px;background:var(--rose);color:#fff;border:none;
+    padding:16px;border-radius:16px;font-family:var(--sans);font-size:0.95rem;font-weight:600;
+    box-shadow:0 6px 20px rgba(201,123,109,0.3);
+  }
+  .primary-btn:disabled{background:#ccc;box-shadow:none;}
+  .secondary-row{display:flex;gap:20px;align-items:center;}
+  .side-btn{
+    width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--line);
+    color:var(--ink);font-size:0.9rem;display:flex;align-items:center;justify-content:center;
+  }
+  .points-earned{font-size:0.75rem;color:var(--ink-soft);}
+
+  .journal-input{
+    width:100%;max-width:340px;margin-top:20px;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:14px;font-family:var(--sans);font-size:0.9rem;color:var(--ink);
+    resize:none;min-height:90px;
+  }
+  .journal-input:focus{outline:none;border-color:var(--rose);}
+
+  .locked-msg{
+    max-width:340px;text-align:center;
+  }
+  .locked-msg .lock-icon{font-size:2.2rem;margin-bottom:14px;}
+  .locked-msg p{font-size:0.95rem;color:var(--ink-soft);line-height:1.8;}
+
+  /* quiz */
+  .quiz-question{width:100%;max-width:380px;}
+  .quiz-progress{font-size:0.72rem;color:var(--ink-soft);margin-bottom:10px;text-align:center;}
+  .quiz-options{display:flex;flex-direction:column;gap:10px;margin-top:18px;}
+  .quiz-option{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:14px 16px;text-align:start;font-size:0.88rem;color:var(--ink);
+  }
+  .quiz-option:active{background:var(--blush);}
+  .quiz-result{text-align:center;}
+  .quiz-result .result-badge{
+    display:inline-block;font-family:var(--serif);font-size:1.6rem;color:var(--rose);
+    background:var(--blush);padding:10px 24px;border-radius:20px;margin-bottom:18px;
+  }
+  .quiz-result p{font-size:0.92rem;line-height:1.8;color:var(--ink-soft);text-align:start;max-width:360px;margin-inline:auto;}
+
+  .toast{
+    position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;padding:12px 22px;border-radius:30px;font-size:0.85rem;
+    z-index:30;opacity:0;pointer-events:none;transition:opacity .4s ease, transform .4s ease;
+    max-width:88vw;text-align:center;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  ::selection{background:var(--blush-deep);color:#fff;}
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<button class="lang-switch" id="langSwitch">EN</button>
+
+<!-- ========== HOME ========== -->
+<div id="homeView">
+  <header class="home-head">
+    <svg class="crown-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 36L4 16L15 24L24 10L33 24L44 16L42 36H6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M6 36H42V40H6V36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+    </svg>
+    <h1 class="brand" id="brandTitle">كوني أميرة</h1>
+    <p class="brand-sub" id="brandSub">رحلتكِ اليومية نحو الثقة والوقار والحكمة، خطوة بخطوة.</p>
+  </header>
+
+  <div class="status-bar">
+    <div class="status-pill">
+      <span class="label" id="levelLabel">المستوى</span>
+      <span class="value" id="levelValue">أميرة مبتدئة</span>
+      <span class="sub" id="pointsSub">0 نقطة</span>
+    </div>
+    <div class="status-pill">
+      <span class="label" id="streakLabel">أيام متتالية</span>
+      <span class="value" id="streakValue">🔥 0</span>
+      <span class="sub" id="streakSub">استمري اليوم</span>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-bar" id="levelProgress" style="width:0%"></div></div>
+    <div class="progress-label" id="progressLabel">0 / 50 للمستوى التالي</div>
+  </div>
+
+  <main class="home-main">
+    <div class="rooms-grid" id="roomsGrid"></div>
+
+    <div class="weekly-challenge" id="quizCard">
+      <div class="wc-label" id="quizLabel">اكتشفي نفسك</div>
+      <h4 id="quizTitle">ما نمط شخصيتكِ الملكي؟</h4>
+      <p id="quizText">اختبار قصير من خمس أسئلة يكشف لكِ نمط شخصيتكِ: الحكيمة، الحانية، أم الجريئة.</p>
+    </div>
+  </main>
+
+  <footer class="home-foot" id="homeFooter">كوني أميرة — رفيقة يومية لبناء الذات، وليست بديلاً عن التوجيه الأسري أو الشرعي المتخصص.</footer>
+</div>
+
+<!-- ========== SESSION ========== -->
+<div class="session" id="session">
+  <button class="close-btn" id="closeBtn">✕</button>
+  <div class="content-stage" id="contentStage"></div>
+  <div class="action-row" id="actionRow">
+    <button class="primary-btn" id="primaryBtn">تم</button>
+    <div class="secondary-row">
+      <button class="side-btn" id="muteBtn">🔊</button>
+      <span class="points-earned" id="pointsEarned"></span>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   I18N
+============================================================ */
+const UI = {
+  ar:{
+    dir:'rtl', lang:'ar',
+    pageTitle:'كوني أميرة',
+    pageDesc:'رحلة يومية لبناء الثقة والوقار والحكمة، مع حكاية متطورة يومًا بعد يوم، ومهام واختبار شخصية.',
+    brandTitle:'كوني أميرة',
+    brandSub:'رحلتكِ اليومية نحو الثقة والوقار والحكمة، خطوة بخطوة.',
+    levelLabel:'المستوى', streakLabel:'أيام متتالية', streakSub:'استمري اليوم',
+    homeFooter:'كوني أميرة — رفيقة يومية لبناء الذات، وليست بديلاً عن التوجيه الأسري أو الشرعي المتخصص.',
+    quizLabel:'اكتشفي نفسك',
+    quizTitle:'ما نمط شخصيتكِ الملكي؟',
+    quizText:'اختبار قصير من خمس أسئلة يكشف لكِ نمط شخصيتكِ: الحكيمة، الحانية، أم الجريئة.',
+    switchLabel:'EN',
+    doneBtn:'تم، أضيفي نقاطي',
+    journalDoneBtn:'حفظ والمتابعة',
+    nextChapterBtn:'استمري',
+    quizNextBtn:'التالي',
+    quizRestartBtn:'إعادة الاختبار',
+    toastPoints:(n)=>`أحسنتِ! +${n} نقطة`,
+    toastLevelUp:(name)=>`🎉 وصلتِ إلى: ${name}`,
+    pointsUnit:'نقطة',
+    nextLevelLabel:(cur,next)=>`${cur} / ${next} للمستوى التالي`,
+    maxLevelLabel:'وصلتِ لأعلى مستوى 👑',
+    chapterLabel:(n)=>`الفصل ${n} من ١٠`,
+    lockedTitle:'عودي غدًا',
+    lockedText:'أكملتِ فصل اليوم من حكاية الأميرة مريم. عودي غدًا لتكملي رحلتها.',
+    storyCompleteTitle:'اكتملت الحكاية',
+    storyCompleteText:'أكملتِ رحلة الأميرة مريم كاملة. أعيدي قراءتها في أي وقت من هنا.',
+    yourAnswer:'إجابتكِ:',
+    quizQuestionLabel:(cur,total)=>`سؤال ${cur} من ${total}`
+  },
+  en:{
+    dir:'ltr', lang:'en',
+    pageTitle:'Be a Princess',
+    pageDesc:'A daily journey to build confidence, dignity, and wisdom, with a story that unfolds day by day, tasks, and a personality quiz.',
+    brandTitle:'Be a Princess',
+    brandSub:'Your daily journey toward confidence, dignity, and wisdom, one step at a time.',
+    levelLabel:'Level', streakLabel:'Day streak', streakSub:'Keep going today',
+    homeFooter:'Be a Princess — a daily companion for self-growth, not a substitute for family or specialized guidance.',
+    quizLabel:'Discover yourself',
+    quizTitle:'What\'s your royal personality?',
+    quizText:'A short five-question quiz reveals your style: the Wise, the Kind, or the Bold.',
+    switchLabel:'AR',
+    doneBtn:'Done, add my points',
+    journalDoneBtn:'Save & continue',
+    nextChapterBtn:'Continue',
+    quizNextBtn:'Next',
+    quizRestartBtn:'Retake quiz',
+    toastPoints:(n)=>`Well done! +${n} point${n>1?'s':''}`,
+    toastLevelUp:(name)=>`🎉 You reached: ${name}`,
+    pointsUnit:'points',
+    nextLevelLabel:(cur,next)=>`${cur} / ${next} to next level`,
+    maxLevelLabel:'You reached the highest level 👑',
+    chapterLabel:(n)=>`Chapter ${n} of 10`,
+    lockedTitle:'Come back tomorrow',
+    lockedText:'You\'ve completed today\'s chapter of Princess Mariam\'s story. Come back tomorrow to continue her journey.',
+    storyCompleteTitle:'The story is complete',
+    storyCompleteText:'You\'ve completed Princess Mariam\'s full journey. Revisit it anytime from here.',
+    yourAnswer:'Your answer:',
+    quizQuestionLabel:(cur,total)=>`Question ${cur} of ${total}`
+  }
+};
+
+const LEVELS = {
+  ar:[
+    {min:0, max:50, name:'أميرة مبتدئة'},
+    {min:51, max:150, name:'أميرة واعدة'},
+    {min:151, max:350, name:'أميرة الوقار'},
+    {min:351, max:700, name:'أميرة الحكمة'},
+    {min:701, max:999999, name:'أميرة متوّجة'}
+  ],
+  en:[
+    {min:0, max:50, name:'Beginner Princess'},
+    {min:51, max:150, name:'Rising Princess'},
+    {min:151, max:350, name:'Princess of Dignity'},
+    {min:351, max:700, name:'Princess of Wisdom'},
+    {min:701, max:999999, name:'Crowned Princess'}
+  ]
+};
+
+/* ============================================================
+   STORY: "The Tale of Princess Mariam" — 10 original chapters
+============================================================ */
+const STORY = {
+  ar:[
+    {title:'القصر الصامت', body:'كانت الأميرة مريم تعيش في قصر كبير، محاطة بكل ما تحتاجه إلا شيئًا واحدًا: صوتها. كانت تخشى أن تتكلم في المجالس، تخاف أن يُقال عنها كلام لا يعجبها. في يوم من الأيام، سألتها جدتها العجوز: "لماذا تصمتين يا مريم، وأنتِ تملكين كلامًا يستحق أن يُقال؟" لم تجد مريم جوابًا، فقط شعرت أن شيئًا في داخلها بدأ يتحرك.', question:'هل هناك موقف صمتِّ فيه وأنتِ تتمنين لو تكلمتِ؟'},
+    {title:'المرآة التي لا تكذب', body:'في غرفتها، كانت هناك مرآة قديمة ورثتها عن جدتها. لم تكن مرآة عادية؛ فحين تنظر فيها مريم، كانت ترى نفسها كما هي، لا كما يريدها الآخرون أن تكون. في تلك الليلة، وقفت أمامها طويلًا، وسألت نفسها: "من أنا حين لا يراقبني أحد؟"', question:'من أنتِ حين تكونين وحدكِ تمامًا؟'},
+    {title:'صوت من الحديقة', body:'سمعت مريم صوت بكاء خافت من حديقة القصر. وجدت خادمة صغيرة تبكي، خائفة من عقاب لم ترتكبه. بدل أن تمر مريم كعادتها، توقفت، جلست بجانبها، واستمعت. لم تقل الكثير، لكن الفتاة الصغيرة شعرت لأول مرة أن أحدًا رآها حقًا.', question:'متى كانت آخر مرة استمعتِ حقًا لأحد، دون أن تفكري في ردكِ؟'},
+    {title:'الكلمة الثقيلة', body:'في المجلس، تحدثت إحدى الأميرات الأخريات عن مريم بكلام جارح، ظنًا منها أنها غير موجودة. سمعت مريم كل كلمة. في الماضي كانت ستبكي في صمت. لكنها هذه المرة، اقتربت بهدوء وقالت: "سمعتُ ما قلتِ، وأتمنى لو تحدثتِ معي مباشرة." لم ترفع صوتها، لكن كلماتها كانت أثقل من أي صراخ.', question:'كيف تتعاملين عادة حين يتكلم عنكِ أحد بالسوء؟'},
+    {title:'التاج المخفي', body:'سألت مريم جدتها: "متى أصبح المرء أميرة حقًا؟" ابتسمت الجدة وقالت: "التاج الحقيقي لا يُرى بالعين، إنه الطريقة التي تحملين بها نفسك حين لا يشاهدك أحد، وحين يشاهدك الجميع." تلك الليلة، فهمت مريم أن الملكية ليست لقبًا، بل سلوكًا.', question:'ما الموقف الذي جعلكِ تشعرين أنكِ تصرفتِ بوقار حقيقي؟'},
+    {title:'الرفض الصعب', body:'طلب منها أحد أن تفعل شيئًا يخالف ما تؤمن به، ووعدها بأن ذلك سيجعلها محبوبة أكثر. ترددت مريم للحظة، ثم قالت: "أفضل أن أُحَب لأني أنا، لا لأني تنازلت عن نفسي." لم يكن القرار سهلًا، لكنها نامت تلك الليلة مرتاحة الضمير.', question:'هل سبق ورفضتِ شيئًا رغم صعوبة الرفض، لأنه يخالف قيمكِ؟'},
+    {title:'يوم الفشل', body:'أخفقت مريم في مهمة مهمة كُلِّفت بها، أمام الجميع. شعرت بالخجل الشديد. لكن جدتها قالت لها: "الفشل ليس نقيض النجاح، إنه جزء من الطريق إليه. من لم تفشل يومًا، لم تحاول أصلًا." تعلمت مريم أن تقف بعد كل سقطة، لا أن تنكر أنها سقطت.', question:'كيف تتعاملين مع نفسكِ بعد فشل أو خطأ؟'},
+    {title:'الجمال الذي لا يذبل', body:'في احتفال كبير، لاحظت مريم كيف يتحدث الناس عن مظهر الأميرات الأخريات فقط. شعرت بالحزن قليلًا، لكنها تذكرت كلام جدتها: "الجمال الذي يعتمد على النظرة يذبل معها. لكن الجمال الذي مصدره القلب، يكبر مع الزمن ولا يشيخ." قررت أن تستثمر في ما لا يذبل.', question:'ما الشيء فيكِ الذي تعرفين أنه لن يذبل مع الزمن؟'},
+    {title:'الأمانة الثقيلة', body:'اؤتمنت مريم على سر صديقة مقربة. كان بإمكانها أن تخبر أحدًا، وكان الإغراء كبيرًا. لكنها فكرت: "إن لم أكن أمينة في الصغائر، فكيف يُؤتمن قلبي على الكبائر؟" حفظت السر، ولم يعلم أحد سواها وصاحبته.', question:'ما قيمة الأمانة في نظركِ، وهل مررتِ بموقف اختبرها؟'},
+    {title:'التاج يُرى أخيرًا', body:'بعد سنوات من الرحلة، جلست مريم في نفس المجلس الذي كانت تخشاه يومًا. تحدثت بثقة، استمعت بصدق، ورفضت بلطف، وسامحت بحكمة. لم يكن أحد يحتاج أن يقول لها إنها "أميرة" — كان الأمر واضحًا في كل حركة وكل كلمة. وفي تلك الليلة، وقفت أمام المرآة القديمة، وابتسمت: "وجدتُ تاجي أخيرًا."', question:'بعد هذه الرحلة، ما التاج الذي وجدتِه أنتِ في داخلكِ؟'}
+  ],
+  en:[
+    {title:'The Silent Palace', body:'Princess Mariam lived in a grand palace, surrounded by everything she needed except one thing: her voice. She feared speaking up in gatherings, afraid of what might be said about her. One day, her grandmother asked, "Why do you stay silent, Mariam, when you carry words worth saying?" Mariam found no answer, but felt something within her begin to stir.', question:'Is there a moment you stayed silent and wished you had spoken?'},
+    {title:'The Mirror That Doesn\'t Lie', body:'In her room stood an old mirror, inherited from her grandmother. It was no ordinary mirror; when Mariam looked into it, she saw herself as she truly was, not as others wished her to be. That night, she stood before it for a long while, asking herself: "Who am I when no one is watching?"', question:'Who are you when you\'re entirely alone?'},
+    {title:'A Voice from the Garden', body:'Mariam heard soft crying from the palace garden. She found a young servant girl in tears, afraid of a punishment she hadn\'t earned. Instead of walking past as usual, Mariam stopped, sat beside her, and listened. She said little, but the girl felt, for the first time, truly seen.', question:'When did you last truly listen to someone, without thinking of your reply?'},
+    {title:'The Heavy Word', body:'In the gathering, another princess spoke unkindly of Mariam, assuming she wasn\'t within earshot. Mariam heard every word. In the past, she would have cried in silence. This time, she approached calmly and said, "I heard what you said, and I wish you had spoken to me directly." She never raised her voice, yet her words carried more weight than any shout.', question:'How do you usually respond when someone speaks badly of you?'},
+    {title:'The Hidden Crown', body:'Mariam asked her grandmother, "When does one truly become a princess?" The grandmother smiled: "The true crown isn\'t seen by the eye — it\'s how you carry yourself when no one is watching, and when everyone is." That night, Mariam understood that royalty isn\'t a title, but a way of being.', question:'What moment made you feel you acted with real dignity?'},
+    {title:'The Difficult Refusal', body:'Someone asked her to do something against her beliefs, promising it would make her more liked. Mariam hesitated a moment, then said, "I\'d rather be loved for who I am than for what I gave up of myself." It wasn\'t an easy choice, but she slept that night at peace.', question:'Have you ever refused something difficult because it went against your values?'},
+    {title:'The Day of Failure', body:'Mariam failed at an important task, in front of everyone. She felt deep shame. But her grandmother told her, "Failure isn\'t the opposite of success — it\'s part of the road to it. Whoever has never failed has never truly tried." Mariam learned to rise after every fall, not deny that she\'d fallen.', question:'How do you treat yourself after a failure or mistake?'},
+    {title:'The Beauty That Doesn\'t Fade', body:'At a grand celebration, Mariam noticed how people spoke only of the other princesses\' appearances. She felt a quiet sadness, then remembered her grandmother\'s words: "Beauty that depends on a glance fades with it. But beauty whose source is the heart grows with time and never ages." She decided to invest in what doesn\'t fade.', question:'What in you do you know will never fade with time?'},
+    {title:'The Heavy Trust', body:'Mariam was entrusted with a close friend\'s secret. She could have told someone, and the temptation was real. But she thought, "If I\'m not trustworthy in small things, how could my heart be trusted with great ones?" She kept the secret; no one but her and her friend ever knew.', question:'What does trustworthiness mean to you, and has it ever been tested?'},
+    {title:'The Crown Is Finally Seen', body:'Years into her journey, Mariam sat in the very gathering she once feared. She spoke with confidence, listened with sincerity, declined with grace, and forgave with wisdom. No one needed to tell her she was "a princess" — it was clear in every gesture and every word. That night, she stood before the old mirror and smiled: "I\'ve finally found my crown."', question:'After this journey, what crown have you found within yourself?'}
+  ]
+};
+
+/* ============================================================
+   TASK BANK: 30 original daily tasks
+============================================================ */
+const TASKS = {
+  ar:[
+    'قولي كلمة شكر لشخص لا تتوقعين منه أن يسمعها منكِ.',
+    'اكتبي ثلاثة أشياء بسيطة تشعرين بالامتنان لها اليوم.',
+    'لاحظي ثلاث مرات شعرتِ فيها بالتردد اليوم، وسجليها.',
+    'تأملي في شيء حولكِ لم تنتبهي لجماله من قبل.',
+    'اكتبي رسالة قصيرة لنفسكِ في سن أصغر.',
+    'تواصلي مع شخص لم تتحدثي معه منذ فترة طويلة.',
+    'استمعي اليوم لشخص دون أن تفكري في ردكِ أثناء حديثه.',
+    'امدحي شخصًا بصدق على صفة داخلية فيه، لا مظهره.',
+    'اعتذري عن موقف كنتِ تؤجلين الاعتذار عنه.',
+    'اسألي أحد أفراد أسرتكِ عن يوم صعب مرّ به، واستمعي فقط.',
+    'قولي "لا" بلطف لطلب لا ترغبين فيه اليوم.',
+    'عبّري عن رأيكِ في نقاش، حتى لو كان مخالفًا للأغلبية.',
+    'اكتبي موقفًا شعرتِ فيه بالفخر بقراركِ رغم صعوبته.',
+    'لاحظي اليوم مرة قارنتِ فيها نفسكِ بأخرى، وتوقفي عندها.',
+    'اكتبي جملة تقولينها لنفسكِ في المرة القادمة التي تترددين فيها.',
+    'اكتبي عادة صغيرة ترغبين في تطويرها هذا الأسبوع.',
+    'صفي يومًا مثاليًا بالنسبة لكِ، ولو بجملتين.',
+    'اذكري موقفًا تعلمتِ منه درسًا لم تتوقعيه.',
+    'اكتبي عن شخص كان له أثر إيجابي كبير في حياتكِ ولم تشكريه بعد.',
+    'تخيّلي نفسكِ بعد خمس سنوات، وصفي ثلاث صفات تتمنين أن تكوني عليها.',
+    'افعلي فعلًا لطيفًا صغيرًا اليوم لشخص لا يتوقعه.',
+    'شاركي معرفة أو نصيحة أفادتكِ مع شخص قد يحتاجها.',
+    'ابتسمي لثلاثة أشخاص اليوم دون سبب معين.',
+    'اكتبي عن أثر إيجابي تودين أن تتركيه في من حولكِ.',
+    'ساعدي شخصًا دون أن تخبري أحدًا بذلك.',
+    'خذي خمس دقائق صمت كامل اليوم، بلا هاتف ولا صوت.',
+    'اكتبي شعورًا سلبيًا يزوركِ كثيرًا، وحاولي فهم مصدره.',
+    'تنفسي بعمق ثلاث مرات قبل أي رد فعل انفعالي اليوم.',
+    'اذكري لحظة شعرتِ فيها بسكينة حقيقية هذا الشهر.',
+    'اختمي يومكِ بجملة شكر لنفسكِ على مجهودكِ اليوم، مهما كان صغيرًا.'
+  ],
+  en:[
+    'Thank someone who wouldn\'t expect to hear it from you.',
+    'Write three simple things you\'re grateful for today.',
+    'Notice three moments of hesitation today, and write them down.',
+    'Reflect on something around you whose beauty you never noticed before.',
+    'Write a short letter to your younger self.',
+    'Reach out to someone you haven\'t spoken to in a long time.',
+    'Listen to someone today without planning your reply while they speak.',
+    'Sincerely compliment someone on an inner quality, not their appearance.',
+    'Apologize for something you\'ve been putting off.',
+    'Ask a family member about a hard day they had, and just listen.',
+    'Kindly say "no" to a request you don\'t want today.',
+    'Voice your opinion in a discussion, even if it goes against the majority.',
+    'Write about a decision you were proud of despite its difficulty.',
+    'Notice a moment today you compared yourself to someone else, and pause on it.',
+    'Write a sentence to tell yourself next time you hesitate.',
+    'Write down a small habit you\'d like to build this week.',
+    'Describe an ideal day for you, even in two sentences.',
+    'Recall a situation that taught you an unexpected lesson.',
+    'Write about someone who had a big positive impact on you that you haven\'t thanked yet.',
+    'Imagine yourself in five years — describe three qualities you hope to have.',
+    'Do a small kind act today for someone who doesn\'t expect it.',
+    'Share knowledge or advice that helped you with someone who might need it.',
+    'Smile at three people today for no particular reason.',
+    'Write about a positive impact you\'d like to leave on those around you.',
+    'Help someone without telling anyone about it.',
+    'Take five full minutes of silence today, no phone, no sound.',
+    'Write down a negative feeling that visits you often, and try to understand its source.',
+    'Breathe deeply three times before any emotional reaction today.',
+    'Recall a moment of true serenity this month.',
+    'End your day with a sentence of thanks to yourself for today\'s effort, however small.'
+  ]
+};
+
+/* ============================================================
+   QUIZ: "Discover your royal personality"
+============================================================ */
+const QUIZ = {
+  ar:{
+    questions:[
+      {q:'حين تواجهين موقفًا صعبًا، ماذا يكون رد فعلكِ الأول؟', options:[
+        {t:'أفكر بعمق قبل أن أتصرف', type:'wise'},
+        {t:'أفكر في شعور من حولي أولًا', type:'kind'},
+        {t:'أتصرف بسرعة وأواجه الموقف مباشرة', type:'bold'}
+      ]},
+      {q:'ما الذي يصف علاقتكِ بالكلام أكثر؟', options:[
+        {t:'أفضل الاستماع على الكلام', type:'wise'},
+        {t:'كلماتي غالبًا لطيفة ومطمئنة', type:'kind'},
+        {t:'أقول رأيي بوضوح دون تردد', type:'bold'}
+      ]},
+      {q:'حين يخطئ معكِ أحد، ماذا تفعلين غالبًا؟', options:[
+        {t:'أحاول فهم دوافعه أولًا', type:'wise'},
+        {t:'أسامح بسرعة، فالعلاقة أهم', type:'kind'},
+        {t:'أواجهه بصراحة بما أشعر به', type:'bold'}
+      ]},
+      {q:'ما الذي يمنحكِ شعورًا بالرضا أكثر؟', options:[
+        {t:'حل مشكلة معقدة بعقلانية', type:'wise'},
+        {t:'رؤية من حولي سعداء', type:'kind'},
+        {t:'تحقيق هدف كنتُ أخشاه', type:'bold'}
+      ]},
+      {q:'كيف تصفين نفسكِ في ثلاث كلمات؟', options:[
+        {t:'هادئة، متأملة، عميقة', type:'wise'},
+        {t:'دافئة، متفهمة، صبورة', type:'kind'},
+        {t:'قوية، صريحة، مقدامة', type:'bold'}
+      ]}
+    ],
+    results:{
+      wise:{name:'الأميرة الحكيمة', text:'أنتِ من تنظر قبل أن تخطو، وتزن الكلمات قبل أن تُقال. قوتكِ في هدوئكِ العميق وقدرتكِ على الرؤية بوضوح حين يضطرب من حولكِ. تذكري أن الحكمة لا تعني الصمت دائمًا؛ أحيانًا صوتكِ هو ما يحتاجه الموقف.'},
+      kind:{name:'الأميرة الحانية', text:'قلبكِ الكبير هو مصدر قوتكِ الحقيقية، وقدرتكِ على جعل من حولكِ يشعرون بالأمان هبة نادرة. تذكري أن العطاء الحقيقي يبدأ من الاهتمام بنفسكِ أولًا، فلا تُفرغي كأسكِ وأنتِ تسقين الآخرين.'},
+      bold:{name:'الأميرة الجريئة', text:'شجاعتكِ في مواجهة الحياة مباشرة هي ما يميزكِ، وقدرتكِ على اتخاذ القرار دون تردد نعمة كبيرة. تذكري أن الجرأة الحقيقية تشمل أيضًا جرأة اللين أحيانًا، فليست كل معركة تستحق أن تُخاض.'}
+    }
+  },
+  en:{
+    questions:[
+      {q:'When facing a hard situation, what\'s your first reaction?', options:[
+        {t:'I think deeply before acting', type:'wise'},
+        {t:'I consider others\' feelings first', type:'kind'},
+        {t:'I act quickly and face it head-on', type:'bold'}
+      ]},
+      {q:'What best describes your relationship with words?', options:[
+        {t:'I prefer listening over speaking', type:'wise'},
+        {t:'My words are usually gentle and reassuring', type:'kind'},
+        {t:'I state my opinion clearly, without hesitation', type:'bold'}
+      ]},
+      {q:'When someone wrongs you, what do you usually do?', options:[
+        {t:'Try to understand their motives first', type:'wise'},
+        {t:'Forgive quickly — the relationship matters more', type:'kind'},
+        {t:'Confront them honestly about how I feel', type:'bold'}
+      ]},
+      {q:'What gives you the most satisfaction?', options:[
+        {t:'Solving a complex problem rationally', type:'wise'},
+        {t:'Seeing those around me happy', type:'kind'},
+        {t:'Achieving a goal I once feared', type:'bold'}
+      ]},
+      {q:'How would you describe yourself in three words?', options:[
+        {t:'Calm, reflective, deep', type:'wise'},
+        {t:'Warm, understanding, patient', type:'kind'},
+        {t:'Strong, direct, daring', type:'bold'}
+      ]}
+    ],
+    results:{
+      wise:{name:'The Wise Princess', text:'You look before you leap, and weigh your words before speaking. Your strength lies in your deep calm and your ability to see clearly when those around you are unsettled. Remember: wisdom doesn\'t always mean silence — sometimes your voice is exactly what the moment needs.'},
+      kind:{name:'The Kind Princess', text:'Your big heart is your true source of strength, and your gift for making others feel safe is rare. Remember that real giving starts with caring for yourself first — don\'t empty your own cup while watering everyone else\'s.'},
+      bold:{name:'The Bold Princess', text:'Your courage to face life head-on sets you apart, and your ability to decide without hesitation is a great gift. Remember that true boldness also includes the courage to be gentle sometimes — not every battle is worth fighting.'}
+    }
+  }
+};
+
+/* ============================================================
+   ROOM ICONS + META (music mode etc.)
+============================================================ */
+const ROOM_ICONS = {
+  throne: `<path d="M6 20l1.5-8L12 15l4-9 4 9 4.5-3L26 20" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/><rect x="7" y="20" width="18" height="3" rx="1" stroke="currentColor" stroke-width="1.8" fill="none"/>`,
+  mirror: `<ellipse cx="16" cy="13" rx="8" ry="10" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M12 26h8M16 23v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`,
+  wisdom: `<path d="M16 6C10 6 6 10 6 15c0 3 1.5 5 3 6.5V25h14v-3.5c1.5-1.5 3-3.5 3-6.5 0-5-4-9-10-9z" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M13 27h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`,
+  serenity: `<path d="M16 5c-1 4-6 5-6 11a6 6 0 0012 0c0-6-5-7-6-11z" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M16 22v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`
+};
+
+const ROOM_META = {
+  throne:{color:'#c97b6d', bg:'#f3d9d3', points:2, mode:'warm'},
+  mirror:{color:'#a8607a', bg:'#ecd6e0', points:1, mode:'gentle'},
+  wisdom:{color:'#8a7248', bg:'#ece2cf', points:2, mode:'clear'},
+  serenity:{color:'#6e8f8a', bg:'#dbe8e5', points:2, mode:'soft'}
+};
+
+const ROOM_TITLES = {
+  ar:{throne:'غرفة العرش', mirror:'غرفة المرآة', wisdom:'غرفة الحكمة', serenity:'غرفة السكينة',
+      throneDesc:'ثقة داخلية تُبنى يومًا بعد يوم', mirrorDesc:'الحياء والوقار كقوة حقيقية',
+      wisdomDesc:'مهارات حياتية عملية للتعامل اليومي', serenityDesc:'حكاية الأميرة مريم، فصلاً كل يوم'},
+  en:{throne:'The Throne Room', mirror:'The Mirror Room', wisdom:'The Wisdom Room', serenity:'The Serenity Room',
+      throneDesc:'Inner confidence, built day by day', mirrorDesc:'Modesty and dignity as real strength',
+      wisdomDesc:'Practical life skills for everyday moments', serenityDesc:'The tale of Princess Mariam, one chapter a day'}
+};
+
+/* ============================================================
+   STATE
+============================================================ */
+let currentLang = 'ar';
+let userState = {
+  points:0, streak:0, lastVisit:null,
+  storyChapter:0,            // next chapter index to unlock (0-based)
+  lastChapterDate:null,      // date last chapter was completed
+  seenTasks:{throne:[], wisdom:[]}, // indices already shown, per room
+  quizAnswers:null
+};
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem('princess_state_v2');
+    if(raw) userState = Object.assign(userState, JSON.parse(raw));
+  }catch(e){}
+}
+function saveState(){
+  try{ localStorage.setItem('princess_state_v2', JSON.stringify(userState)); }catch(e){}
+}
+
+function getLevel(lang){
+  const levels = LEVELS[lang];
+  for(const lv of levels){ if(userState.points>=lv.min && userState.points<=lv.max) return lv; }
+  return levels[levels.length-1];
+}
+
+function updateStatusBar(){
+  const t = UI[currentLang];
+  const levels = LEVELS[currentLang];
+  const lv = getLevel(currentLang);
+  document.getElementById('levelValue').textContent = lv.name;
+  document.getElementById('pointsSub').textContent = `${userState.points} ${t.pointsUnit}`;
+  document.getElementById('streakValue').textContent = `🔥 ${userState.streak}`;
+
+  const idx = levels.indexOf(lv);
+  if(idx === levels.length-1){
+    document.getElementById('levelProgress').style.width='100%';
+    document.getElementById('progressLabel').textContent = t.maxLevelLabel;
+  } else {
+    const span = lv.max - lv.min + 1;
+    const done = userState.points - lv.min;
+    const pct = Math.min(100, Math.round((done/span)*100));
+    document.getElementById('levelProgress').style.width = pct+'%';
+    document.getElementById('progressLabel').textContent = t.nextLevelLabel(userState.points, lv.max+1);
+  }
+}
+
+function addPoints(n){
+  const prevLevel = getLevel(currentLang);
+  userState.points += n;
+
+  const today = new Date().toDateString();
+  if(userState.lastVisit !== today){
+    userState.streak += 1;
+    userState.lastVisit = today;
+  }
+  saveState();
+  updateStatusBar();
+  buildRoomsGrid();
+
+  const t = UI[currentLang];
+  showToast(t.toastPoints(n));
+  const newLevel = getLevel(currentLang);
+  if(newLevel.name !== prevLevel.name){
+    setTimeout(()=>showToast(t.toastLevelUp(newLevel.name)), 1800);
+  }
+}
+
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=>el.classList.remove('show'), 2600);
+}
+
+function pickUnseenTask(roomKey){
+  const pool = TASKS[currentLang];
+  let seen = userState.seenTasks[roomKey] || [];
+  if(seen.length >= pool.length) seen = []; // cycle restarts
+  let idx;
+  do { idx = Math.floor(Math.random()*pool.length); } while(seen.includes(idx) && seen.length < pool.length);
+  userState.seenTasks[roomKey] = [...seen, idx];
+  saveState();
+  return pool[idx];
+}
+
+function canOpenChapterToday(){
+  const today = new Date().toDateString();
+  return userState.lastChapterDate !== today;
+}
+
+/* ============================================================
+   RENDER: language + rooms
+============================================================ */
+function applyLang(lang){
+  currentLang = lang;
+  const t = UI[lang];
+  document.getElementById('htmlRoot').setAttribute('lang', t.lang);
+  document.getElementById('htmlRoot').setAttribute('dir', t.dir);
+  document.getElementById('pageTitle').textContent = t.pageTitle;
+  document.getElementById('pageDesc').setAttribute('content', t.pageDesc);
+  document.getElementById('brandTitle').textContent = t.brandTitle;
+  document.getElementById('brandSub').textContent = t.brandSub;
+  document.getElementById('levelLabel').textContent = t.levelLabel;
+  document.getElementById('streakLabel').textContent = t.streakLabel;
+  document.getElementById('streakSub').textContent = t.streakSub;
+  document.getElementById('homeFooter').textContent = t.homeFooter;
+  document.getElementById('quizLabel').textContent = t.quizLabel;
+  document.getElementById('quizTitle').textContent = t.quizTitle;
+  document.getElementById('quizText').textContent = t.quizText;
+  document.getElementById('langSwitch').textContent = t.switchLabel;
+
+  buildRoomsGrid();
+  updateStatusBar();
+}
+
+document.getElementById('langSwitch').addEventListener('click', ()=>{
+  applyLang(currentLang==='ar' ? 'en' : 'ar');
+});
+
+const roomsGrid = document.getElementById('roomsGrid');
+function buildRoomsGrid(){
+  roomsGrid.innerHTML='';
+  const titles = ROOM_TITLES[currentLang];
+  const order = ['throne','mirror','wisdom','serenity'];
+  order.forEach(key=>{
+    const meta = ROOM_META[key];
+    const card = document.createElement('div');
+    card.className='room-card';
+    card.style.setProperty('--room-color', meta.color);
+    card.style.setProperty('--room-bg', meta.bg);
+
+    let badge = `+${meta.points}`;
+    if(key==='serenity' && !canOpenChapterToday()){
+      badge = currentLang==='ar' ? 'غدًا' : 'Tomorrow';
+    }
+    const badgeClass = (key==='serenity' && !canOpenChapterToday()) ? 'room-badge locked' : 'room-badge';
+
+    card.innerHTML = `
+      <div class="room-icon"><svg viewBox="0 0 32 32" fill="none">${ROOM_ICONS[key]}</svg></div>
+      <div class="room-txt"><h3>${titles[key]}</h3><p>${titles[key+'Desc']}</p></div>
+      <div class="${badgeClass}">${badge}</div>
+    `;
+    card.addEventListener('click', ()=>openRoom(key));
+    roomsGrid.appendChild(card);
+  });
+}
+
+document.getElementById('quizCard').addEventListener('click', openQuiz);
+
+/* ============================================================
+   SESSION CONTROLLER
+============================================================ */
+const sessionEl = document.getElementById('session');
+const contentStage = document.getElementById('contentStage');
+const actionRow = document.getElementById('actionRow');
+const primaryBtn = document.getElementById('primaryBtn');
+const pointsEarnedEl = document.getElementById('pointsEarned');
+
+let sessionMode = null; // 'journal' | 'reading' | 'story' | 'locked' | 'quiz'
+let sessionRoomKey = null;
+let sessionPoints = 0;
+let quizState = null;
+
+function openSession(){
+  sessionEl.classList.add('active');
+  dpiFix();
+}
+function closeSession(){
+  stopVisual();
+  stopAudio();
+  sessionEl.classList.remove('active');
+  contentStage.innerHTML='';
+  actionRow.style.display='flex';
+  primaryBtn.style.display='block';
+  pointsEarnedEl.textContent='';
+}
+document.getElementById('closeBtn').addEventListener('click', closeSession);
+
+function fadeInContent(){
+  requestAnimationFrame(()=>{
+    contentStage.querySelectorAll('.content-body, .content-caption').forEach(el=>el.classList.add('show'));
+  });
+}
+
+/* ---- Throne / Wisdom: task-based journal or reading ---- */
+function openTaskRoom(key){
+  const t = UI[currentLang];
+  const meta = ROOM_META[key];
+  const titles = ROOM_TITLES[currentLang];
+  const task = pickUnseenTask(key);
+
+  sessionMode='journal'; sessionRoomKey=key; sessionPoints=meta.points;
+
+  contentStage.innerHTML = `
+    <canvas id="fx" width="400" height="400"></canvas>
+    <div class="room-title-small">${titles[key]}</div>
+    <div class="content-body show" style="text-align:center;">${task}</div>
+    <textarea class="journal-input" id="journalInput" placeholder="${currentLang==='ar'?'اكتبي هنا...':'Write here...'}"></textarea>
+  `;
+  primaryBtn.textContent = t.journalDoneBtn;
+  primaryBtn.style.display='block';
+  pointsEarnedEl.textContent='';
+
+  openSession();
+  loopVisual(meta.color);
+  initAudio(meta.mode);
+}
+
+/* ---- Mirror: single reflective line ---- */
+const MIRROR_LINES = {
+  ar:[
+    'وقاركِ ليس بابًا مغلقًا، بل مفتاحًا لا يُعطى إلا لمن يستحق.',
+    'من عرفت قيمة نفسها، لم تعد بحاجة أن تثبتها للجميع.',
+    'الهدوء الذي تحملينه في تعاملكِ أقوى أثرًا من أي زينة ظاهرة.',
+    'ثقة المرأة بنفسها تُقرأ في نظرتها قبل أن تُقرأ في كلامها.',
+    'من احترمت نفسها أولًا، وجدت من يحترمها دون أن تطلب ذلك.',
+    'الحياء الحقيقي ليس خجلاً من الظهور، بل اختيارًا واعيًا لما تُظهرين.',
+    'قيمتكِ لا تُقاس بعدد من ينظر إليكِ، بل بمن أنتِ حين لا ينظر أحد.'
+  ],
+  en:[
+    'Your dignity is not a closed door, but a key given only to those who deserve it.',
+    'Whoever knows her own worth no longer needs to prove it to everyone.',
+    'The calm you carry in how you treat others speaks louder than any outward adornment.',
+    'A woman\'s confidence is read in her gaze before it\'s read in her words.',
+    'Whoever respects herself first finds others respecting her without asking.',
+    'True modesty isn\'t shyness about being seen — it\'s a conscious choice of what you show.',
+    'Your worth isn\'t measured by how many look at you, but by who you are when no one does.'
+  ]
+};
+
+function openMirrorRoom(){
+  const t = UI[currentLang];
+  const meta = ROOM_META.mirror;
+  const titles = ROOM_TITLES[currentLang];
+  const line = MIRROR_LINES[currentLang][Math.floor(Math.random()*MIRROR_LINES[currentLang].length)];
+
+  sessionMode='reading'; sessionRoomKey='mirror'; sessionPoints=meta.points;
+
+  contentStage.innerHTML = `
+    <canvas id="fx" width="400" height="400"></canvas>
+    <div class="room-title-small">${titles.mirror}</div>
+    <div class="content-body show" style="text-align:center;">${line}</div>
+  `;
+  primaryBtn.textContent = t.doneBtn;
+  primaryBtn.style.display='block';
+  pointsEarnedEl.textContent='';
+
+  openSession();
+  loopVisual(meta.color);
+  initAudio(meta.mode);
+}
+
+/* ---- Serenity: story chapter, one per day ---- */
+function openStoryRoom(){
+  const t = UI[currentLang];
+  const meta = ROOM_META.serenity;
+  const titles = ROOM_TITLES[currentLang];
+  const chapters = STORY[currentLang];
+
+  sessionRoomKey='serenity';
+
+  if(userState.storyChapter >= chapters.length){
+    sessionMode='locked';
+    contentStage.innerHTML = `
+      <canvas id="fx" width="400" height="400"></canvas>
+      <div class="locked-msg">
+        <div class="lock-icon">👑</div>
+        <p><strong>${t.storyCompleteTitle}</strong><br>${t.storyCompleteText}</p>
+      </div>
+    `;
+    primaryBtn.style.display='none';
+    openSession();
+    loopVisual(meta.color);
+    initAudio(meta.mode);
+    return;
+  }
+
+  if(!canOpenChapterToday()){
+    sessionMode='locked';
+    contentStage.innerHTML = `
+      <canvas id="fx" width="400" height="400"></canvas>
+      <div class="locked-msg">
+        <div class="lock-icon">🌙</div>
+        <p><strong>${t.lockedTitle}</strong><br>${t.lockedText}</p>
+      </div>
+    `;
+    primaryBtn.style.display='none';
+    openSession();
+    loopVisual(meta.color);
+    initAudio(meta.mode);
+    return;
+  }
+
+  sessionMode='story'; sessionPoints=meta.points;
+  const ch = chapters[userState.storyChapter];
+  contentStage.innerHTML = `
+    <canvas id="fx" width="400" height="400"></canvas>
+    <div class="room-title-small">${titles.serenity}</div>
+    <div class="chapter-label">${t.chapterLabel(userState.storyChapter+1)}</div>
+    <div class="content-title">${ch.title}</div>
+    <div class="content-body show">${ch.body}</div>
+    <div class="content-caption show">${t.yourAnswer} ${ch.question}</div>
+    <textarea class="journal-input" id="journalInput" placeholder="${currentLang==='ar'?'اكتبي هنا...':'Write here...'}"></textarea>
+  `;
+  primaryBtn.textContent = t.nextChapterBtn;
+  primaryBtn.style.display='block';
+  pointsEarnedEl.textContent='';
+
+  openSession();
+  loopVisual(meta.color);
+  initAudio(meta.mode);
+}
+
+/* ---- Router ---- */
+function openRoom(key){
+  if(key==='throne' || key==='wisdom') openTaskRoom(key);
+  else if(key==='mirror') openMirrorRoom();
+  else if(key==='serenity') openStoryRoom();
+}
+
+primaryBtn.addEventListener('click', ()=>{
+  if(sessionMode==='journal' || sessionMode==='reading'){
+    addPoints(sessionPoints);
+    pointsEarnedEl.textContent = `+${sessionPoints}`;
+    setTimeout(closeSession, 500);
+  } else if(sessionMode==='story'){
+    userState.storyChapter += 1;
+    userState.lastChapterDate = new Date().toDateString();
+    saveState();
+    addPoints(sessionPoints);
+    pointsEarnedEl.textContent = `+${sessionPoints}`;
+    setTimeout(closeSession, 500);
+  } else if(sessionMode==='quiz'){
+    handleQuizNext();
+  }
+});
+
+/* ============================================================
+   QUIZ FLOW
+============================================================ */
+function openQuiz(){
+  quizState = { idx:0, tally:{wise:0,kind:0,bold:0} };
+  sessionMode='quiz';
+  renderQuizQuestion();
+  openSession();
+  stopVisual(); stopAudio();
+  contentStage.querySelector('#fx') || null;
+}
+
+function renderQuizQuestion(){
+  const t = UI[currentLang];
+  const data = QUIZ[currentLang];
+  const q = data.questions[quizState.idx];
+
+  contentStage.innerHTML = `
+    <div class="quiz-question">
+      <div class="quiz-progress">${t.quizQuestionLabel(quizState.idx+1, data.questions.length)}</div>
+      <div class="content-title" style="text-align:center;">${q.q}</div>
+      <div class="quiz-options" id="quizOptions"></div>
+    </div>
+  `;
+  const optsEl = document.getElementById('quizOptions');
+  q.options.forEach(opt=>{
+    const btn = document.createElement('button');
+    btn.className='quiz-option';
+    btn.textContent = opt.t;
+    btn.addEventListener('click', ()=>{
+      quizState.tally[opt.type]++;
+      quizState.idx++;
+      if(quizState.idx >= data.questions.length){
+        renderQuizResult();
+      } else {
+        renderQuizQuestion();
+      }
+    });
+    optsEl.appendChild(btn);
+  });
+  primaryBtn.style.display='none';
+}
+
+function renderQuizResult(){
+  const t = UI[currentLang];
+  const data = QUIZ[currentLang];
+  let topType='wise', topScore=-1;
+  Object.keys(quizState.tally).forEach(k=>{
+    if(quizState.tally[k]>topScore){ topScore=quizState.tally[k]; topType=k; }
+  });
+  const result = data.results[topType];
+  userState.quizAnswers = topType;
+  saveState();
+
+  contentStage.innerHTML = `
+    <div class="quiz-result">
+      <div class="result-badge">${result.name}</div>
+      <p>${result.text}</p>
+    </div>
+  `;
+  primaryBtn.textContent = t.quizRestartBtn;
+  primaryBtn.style.display='block';
+  sessionMode='quiz-done';
+}
+
+function handleQuizNext(){
+  if(sessionMode==='quiz-done'){ openQuiz(); }
+}
+
+/* ============================================================
+   AUDIO ENGINE — per-room original melody (same engine style
+   as the Rewire app, distinct root/mode per room)
+============================================================ */
+let actx=null, master=null, droneNodes=[], melodyTimeout=null, reverbNode=null;
+let isMuted=false;
+
+function buildReverb(ctx, seconds, decay){
+  const rate = ctx.sampleRate;
+  const length = rate * seconds;
+  const impulse = ctx.createBuffer(2, length, rate);
+  for(let ch=0; ch<2; ch++){
+    const data = impulse.getChannelData(ch);
+    for(let i=0;i<length;i++){
+      data[i] = (Math.random()*2-1) * Math.pow(1 - i/length, decay);
+    }
+  }
+  const conv = ctx.createConvolver();
+  conv.buffer = impulse;
+  return conv;
+}
+
+const PHRASES = {
+  warm:[[0,2],[4,1],[7,1],[9,2],[7,1],[4,1],[0,3],[null,1],[9,2],[12,1],[9,1],[7,2],[4,1],[0,1],[4,3],[null,2]],
+  gentle:[[0,2],[2,1],[3,2],[2,1],[0,2],[null,1],[7,2],[5,1],[3,2],[2,1],[0,3],[null,2]],
+  clear:[[0,1.5],[2,0.5],[4,1],[7,1],[4,1],[2,1],[0,2],[null,1],[7,1.5],[9,0.5],[7,1],[4,2],[2,1],[0,2],[null,2]],
+  soft:[[0,3],[3,2],[0,3],[null,1.5],[5,3],[3,2],[0,4],[null,2]]
+};
+const ROOT_MAP = { warm:294, gentle:330, clear:349, soft:261 };
+
+function initAudio(mode){
+  actx = new (window.AudioContext||window.webkitAudioContext)();
+  master = actx.createGain();
+  master.gain.value = 0.0001;
+
+  const masterFilter = actx.createBiquadFilter();
+  masterFilter.type='lowpass'; masterFilter.frequency.value=3800; masterFilter.Q.value=0.2;
+
+  reverbNode = buildReverb(actx, 4.0, 2.3);
+  const reverbGain = actx.createGain(); reverbGain.gain.value=0.48;
+  const dryGain = actx.createGain(); dryGain.gain.value=0.82;
+
+  master.connect(masterFilter);
+  masterFilter.connect(dryGain).connect(actx.destination);
+  masterFilter.connect(reverbNode).connect(reverbGain).connect(actx.destination);
+
+  const root = ROOT_MAP[mode] || 294;
+  const semitone = n => root * Math.pow(2, n/12);
+
+  const melodyGain = actx.createGain();
+  melodyGain.gain.value = 0;
+  melodyGain.connect(master);
+
+  const vibrato = actx.createOscillator();
+  vibrato.frequency.value = 5.0;
+  const vibratoDepth = actx.createGain();
+  vibratoDepth.gain.value = 3.2;
+  vibrato.connect(vibratoDepth);
+  vibrato.start();
+  droneNodes.push(vibrato);
+
+  const phrase = PHRASES[mode] || PHRASES.warm;
+  const BEAT = 0.6;
+
+  function playNote(semi, beats){
+    if(semi===null) return;
+    const dur = beats*BEAT;
+    const t = actx.currentTime;
+    const freqHz = semitone(semi);
+
+    const osc = actx.createOscillator();
+    osc.type='sine'; osc.frequency.value=freqHz;
+    const osc2 = actx.createOscillator();
+    osc2.type='triangle'; osc2.frequency.value=freqHz;
+
+    vibratoDepth.connect(osc.detune);
+    vibratoDepth.connect(osc2.detune);
+
+    const noteGain = actx.createGain();
+    noteGain.gain.value = 0;
+    const g2 = actx.createGain(); g2.gain.value=0.32;
+
+    osc.connect(noteGain);
+    osc2.connect(g2).connect(noteGain);
+    noteGain.connect(melodyGain);
+
+    osc.start(t); osc2.start(t);
+    noteGain.gain.linearRampToValueAtTime(0.82, t+0.09);
+    noteGain.gain.linearRampToValueAtTime(0.66, t+dur*0.6);
+    noteGain.gain.linearRampToValueAtTime(0.0001, t+dur*0.98);
+    osc.stop(t+dur+0.05); osc2.stop(t+dur+0.05);
+  }
+
+  let idx=0;
+  function cycle(){
+    const [semi,beats] = phrase[idx % phrase.length];
+    playNote(semi,beats);
+    idx++;
+    melodyTimeout = setTimeout(cycle, beats*BEAT*1000);
+  }
+  melodyGain.gain.linearRampToValueAtTime(0.4, actx.currentTime+2);
+  cycle();
+
+  [0,7,12].forEach((semi,i)=>{
+    const osc = actx.createOscillator();
+    osc.type='triangle'; osc.frequency.value=semitone(semi)/2;
+    const g = actx.createGain(); g.gain.value = i===0?0.08:0.045;
+    const filt = actx.createBiquadFilter();
+    filt.type='lowpass'; filt.frequency.value=850;
+    osc.connect(filt).connect(g).connect(master);
+    osc.start();
+    droneNodes.push(osc);
+  });
+
+  const lfo = actx.createOscillator();
+  lfo.frequency.value=0.045;
+  const lfoGain = actx.createGain(); lfoGain.gain.value=0.028;
+  lfo.connect(lfoGain); lfoGain.connect(master.gain);
+  lfo.start();
+  droneNodes.push(lfo);
+
+  master.gain.linearRampToValueAtTime(isMuted?0.0001:0.55, actx.currentTime+3);
+}
+
+function stopAudio(){
+  if(!actx) return;
+  try{
+    clearTimeout(melodyTimeout);
+    master.gain.linearRampToValueAtTime(0.0001, actx.currentTime+1.3);
+    setTimeout(()=>{
+      droneNodes.forEach(n=>{try{n.stop();}catch(e){}});
+      droneNodes=[];
+      if(actx){ actx.close(); actx=null; }
+    },1400);
+  }catch(e){}
+}
+
+document.getElementById('muteBtn').addEventListener('click', ()=>{
+  isMuted=!isMuted;
+  document.getElementById('muteBtn').textContent = isMuted? '🔇':'🔊';
+  if(master && actx){
+    master.gain.linearRampToValueAtTime(isMuted?0.0001:0.55, actx.currentTime+0.5);
+  }
+});
+
+/* ============================================================
+   VISUAL: soft glowing bloom, color per room
+============================================================ */
+let rafId=null;
+function dpiFix(){
+  const canvas = document.getElementById('fx');
+  if(!canvas) return;
+  const size=400, scale=window.devicePixelRatio||1;
+  canvas.width=size*scale; canvas.height=size*scale;
+  canvas.getContext('2d').setTransform(scale,0,0,scale,0,0);
+}
+function hexToRgb(hex){
+  const v = parseInt(hex.slice(1),16);
+  return [(v>>16)&255,(v>>8)&255,v&255];
+}
+function drawFrame(time, colorHex){
+  const canvas = document.getElementById('fx');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const [r,g,b] = hexToRgb(colorHex);
+  const W=400,H=400,cx=W/2,cy=H/2;
+  ctx.clearRect(0,0,W,H);
+  const t = time*0.001;
+
+  for(let i=0;i<4;i++){
+    const radius = 50+i*24+Math.sin(t*0.22+i)*8;
+    const alpha = 0.09+0.04*Math.sin(t*0.3+i*0.7);
+    ctx.beginPath();
+    ctx.strokeStyle=`rgba(${r},${g},${b},${Math.max(alpha,0.02)})`;
+    ctx.lineWidth=1.2;
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(t*0.06*(i%2===0?1:-1));
+    ctx.beginPath();
+    for(let a=0;a<Math.PI*2;a+=0.06){
+      const wob = Math.sin(a*5+t*0.5+i)*3;
+      const rr = radius+wob;
+      const x=Math.cos(a)*rr, y=Math.sin(a)*rr*0.94;
+      a===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath(); ctx.stroke(); ctx.restore();
+  }
+
+  const coreR = 26+Math.sin(t*0.6)*6;
+  const grad = ctx.createRadialGradient(cx,cy,0,cx,cy,coreR*3);
+  grad.addColorStop(0,`rgba(${r},${g},${b},0.5)`);
+  grad.addColorStop(1,`rgba(${r},${g},${b},0)`);
+  ctx.beginPath(); ctx.fillStyle=grad; ctx.arc(cx,cy,coreR*3,0,Math.PI*2); ctx.fill();
+
+  ctx.beginPath();
+  ctx.fillStyle=`rgba(${Math.min(r+50,255)},${Math.min(g+40,255)},${Math.min(b+40,255)},0.9)`;
+  ctx.arc(cx,cy,coreR*0.3,0,Math.PI*2); ctx.fill();
+}
+function loopVisual(colorHex){
+  function frame(time){ drawFrame(time,colorHex); rafId=requestAnimationFrame(frame); }
+  rafId=requestAnimationFrame(frame);
+}
+function stopVisual(){ if(rafId){cancelAnimationFrame(rafId); rafId=null;} }
+
+window.addEventListener('resize', dpiFix);
+
+/* init */
+loadState();
+applyLang('ar');
+</script>
+</body>
+</html>
